@@ -125,7 +125,7 @@ Boost.Flags main purpose is to harden code which uses flag-like enumerations by 
 
 ## Characteristics of Boost.Flags
 
-* is non-intrusive - only a macro invocation is required to opt-in
+* non-intrusive - only a macro invocation is required to opt-in
 * single header-file library
 * no dependencies (only standard-library includes)
 * usable at compile-time / in template arguments: everything is `constexpr`

@@ -157,16 +157,18 @@
 namespace boost {
     namespace flags {
 
-        // non-intrusive opt-in to operations of boost::flags
-        // overload `boost_flags_enable` for scoped or unscoped enums with
+        // Non-intrusive opt-in for using boost::flags operations with an enum.
+        // Overload `boost_flags_enable` for scoped or unscoped enums like this:
+        //
         // consteval inline options_constant<Opts> boost_flags_enable(my_enum) { return {}; }
-        // `boost_flags_enable` will be found by ADL
-        // to enable operations for scoped or unscoped enums
-        // 'boost_flags_enable' returns an integral_constant instead of a plain value: this is needed
-        // for class-local flags, where operators are used in the class definition of constants. Since
-        // the 'friend boost_flags_enable' is only declared (but not yet defined - this happens directly
-        // after the class definition) we cannot call it, but only 'decltype' its returned type.
-        // 
+        //
+        // `boost_flags_enable` is found via ADL and enables operators for the enum.
+        // It returns an integral_constant instead of a plain enum value because
+        // class-local flags may need to use operators inside the class definition.
+        // In that case `friend boost_flags_enable` is only declared (not defined yet),
+        // so it cannot be called directly; only the return type can be inspected via `decltype`.
+        //
+        // Usage example:
         // decltype(boost_flags_enable(E{})){}.value
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^          -> options_constant<Opts>
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        -> instance of options_constant<Opts>
